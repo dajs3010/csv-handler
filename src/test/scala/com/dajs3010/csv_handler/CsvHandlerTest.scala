@@ -5,63 +5,74 @@ import org.scalatest.{BeforeAndAfter, FunSpec}
 /**
   * Created by David on 11/03/2018.
   */
-class CsvHandlerTest extends FunSpec with BeforeAndAfter{
+class CsvHandlerTest extends FunSpec with BeforeAndAfter {
 
-  before {
+  describe("test") {
+
     CsvHandler.setFile("src\\test\\scala\\resources\\test.csv")
-  }
 
-  describe("getColumnsByHeaderIndex") {
-    it("") {
-      assert(CsvHandler.getColumnsByHeaderIndex(2) == List("111","222"))
+    it("getColumnsByHeaderIndex") {
+      assert(CsvHandler.getColumnsByHeaderIndex(2) == List("111", "222"))
     }
-  }
 
-  describe("getColumnsByHeaderName") {
-    it("") {
-      assert(CsvHandler.getColumnsByHeaderName("first") == List("hola","chao"))
+    it("getColumnsByHeaderName") {
+      assert(CsvHandler.getColumnsByHeaderName("first") == List("hola", "chao"))
     }
-  }
 
-  describe("toMap") {
-    it("") {
+    it("csvMap") {
       assert(
         CsvHandler.csvMap ==
-        Map("first" -> List("hola", "chao"),
-          "second" -> List("david", "caro"),
-          "third" -> List("111", "222"))
+          Map("first" -> List("hola", "chao"),
+            "second" -> List("david", "caro"),
+            "third" -> List("111", "222"))
       )
     }
-  }
 
-  describe("getHeaders") {
-    it("") {
+    it("getHeaders") {
       assert(CsvHandler.getHeaders == List("first", "second", "third"))
     }
-  }
 
-  describe("getValues") {
-    it("") {
-      assert(CsvHandler.getValues == List(List("hola","david","111"), List("chao","caro","222")))
+    it("getValues") {
+      assert(CsvHandler.getValues == List(List("hola", "david", "111"), List("chao", "caro", "222")))
     }
-  }
 
-  describe("countRows") {
-    it("") {
+    it("countRows") {
       assert(CsvHandler.countRows == 2)
     }
-  }
 
-  describe("countColumns"){
-    it(""){
+    it("countColumns") {
       assert(CsvHandler.countColumns == 3)
     }
-  }
 
-  describe(""){
-    it(""){
+    it("countEmpties by column") {
+      assert(CsvHandler.countEmpties(Some("first")) == 0)
+    }
+
+    it("countEmpties") {
+      assert(CsvHandler.countEmpties() == 0)
+    }
+
+    it("countNonEmpties by column") {
+      assert(CsvHandler.countNonEmpties(Some("first")) == 2)
+    }
+
+    it("countNonEmpties") {
+      assert(CsvHandler.countNonEmpties() == 6)
+    }
+
+    it("countAll by column") {
+      assert(CsvHandler.countAll(Some("first")) == 2)
+    }
+
+    it("countAll") {
+      assert(CsvHandler.countAll() == 6)
+    }
+
+    it("") {
 
     }
+
   }
+
 
 }
