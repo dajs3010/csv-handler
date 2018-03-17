@@ -1,5 +1,6 @@
 package com.dajs3010.csv_handler
 
+import com.dajs3010.csv_handler.validation.ValidationHandler
 import org.scalatest.{BeforeAndAfter, FunSpec}
 
 /**
@@ -19,6 +20,10 @@ class CsvHandlerTest extends FunSpec with BeforeAndAfter {
       assert(CsvHandler.getColumnsByHeaderName("first") == List("hola", "chao"))
     }
 
+    it("getRow") {
+      assert(CsvHandler.getRow(1) == List("chao", "caro", "222"))
+    }
+
     it("csvMap") {
       assert(
         CsvHandler.csvMap ==
@@ -32,40 +37,8 @@ class CsvHandlerTest extends FunSpec with BeforeAndAfter {
       assert(CsvHandler.getHeaders == List("first", "second", "third"))
     }
 
-    it("getValues") {
-      assert(CsvHandler.getValues == List(List("hola", "david", "111"), List("chao", "caro", "222")))
-    }
-
-    it("countRows") {
-      assert(CsvHandler.countRows == 2)
-    }
-
-    it("countColumns") {
-      assert(CsvHandler.countColumns == 3)
-    }
-
-    it("countEmpties by column") {
-      assert(CsvHandler.countEmpties(Some("first")) == 0)
-    }
-
-    it("countEmpties") {
-      assert(CsvHandler.countEmpties() == 0)
-    }
-
-    it("countNonEmpties by column") {
-      assert(CsvHandler.countNonEmpties(Some("first")) == 2)
-    }
-
-    it("countNonEmpties") {
-      assert(CsvHandler.countNonEmpties() == 6)
-    }
-
-    it("countAll by column") {
-      assert(CsvHandler.countAll(Some("first")) == 2)
-    }
-
-    it("countAll") {
-      assert(CsvHandler.countAll() == 6)
+    it("getRowsAsLists") {
+      assert(CsvHandler.getRowsAsLists == List(List("hola", "david", "111"), List("chao", "caro", "222")))
     }
 
     it("") {

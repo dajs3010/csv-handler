@@ -7,8 +7,6 @@ import scala.io.BufferedSource
   */
 object CsvHandler {
 
-  private final val COMA = ","
-
   var file: BufferedSource = scala.io.Source.stdin
   var lines: List[String] = List.empty[String]
   var csvMap: Map[String, List[String]] = Map.empty[String, List[String]]
@@ -22,7 +20,7 @@ object CsvHandler {
     lines = file.getLines().map(_.trim.toLowerCase).toList
     csvMap = {
       val headers = getHeaders
-      val values = getValues
+      val values = getRowsAsLists
       val map = headers.map(header => {
         val index = headers.indexOf(header)
         header -> values.map(value => {
@@ -39,31 +37,19 @@ object CsvHandler {
     *
     * @return
     */
-  def getHeaders = splitLine(lines.head)
+  def getHeaders: List[String] = Util.splitLine(lines.head)
 
   /**
     *
     * @return
     */
-  def getValues = lines.tail.map(splitLine)
-
-  /**
-    *
-    * @return
-    */
-  def countRows = lines.tail.size
-
-  /**
-    *
-    * @return
-    */
-  def countColumns = splitLine(lines.head).size
+  def getRowsAsLists: List[List[String]] = lines.tail.map(Util.splitLine)
 
   /**
     *
     * @param header
     */
-  def getColumnsByHeaderName(header: String) = {
+  def getColumnsByHeaderName(header: String): List[String] = {
     val headerLine = csvMap.keys.toList
     if (headerLine.contains(header)) {
       val index = headerLine.indexOf(header)
@@ -78,9 +64,9 @@ object CsvHandler {
     * @param index
     * @return
     */
-  def getColumnsByHeaderIndex(index: Int, csvMapParameter: Map[String, List[String]] = Map()) = {
+  def getColumnsByHeaderIndex(index: Int, csvMapParameter: Map[String, List[String]] = Map()): List[String] = {
     try {
-      if(csvMapParameter.nonEmpty) {
+      if (csvMapParameter.nonEmpty) {
         val key = csvMapParameter.keys.toList(index)
         csvMapParameter(key)
       } else {
@@ -96,49 +82,17 @@ object CsvHandler {
 
   /**
     *
-    * @param column
+    * @param rowNumber
     * @return
     */
-  def countEmpties(column: Option[String] = None) = {
-    column match {
-      case Some(x) => getColumnsByHeaderName(x).count(_.isEmpty)
-      case _ => lines.tail.flatMap(splitLine).count(_.isEmpty)
-    }
+  def getRow(rowNumber: Int): List[String] = {
+    getRowsAsLists(rowNumber)
   }
+
 
   /**
     *
-    * @param column
-    * @return
     */
-  def countNonEmpties(column: Option[String] = None) = {
-    column match {
-      case Some(x) => getColumnsByHeaderName(x).count(_.nonEmpty)
-      case _ => lines.tail.flatMap(splitLine).count(_.nonEmpty)
-    }
-  }
-
-  /**
-    *
-    * @param column
-    * @return
-    */
-  def countAll(column: Option[String] = None) = {
-    column match {
-      case Some(x) => getColumnsByHeaderName(x).size
-      case _ => lines.tail.flatMap(splitLine).size
-    }
-  }
-
   private def closeFile = file.close
-
-
-  /**
-    *
-    * @param line
-    * @return
-    */
-  private def splitLine(line: String) = line.split(COMA).toList
-
 
 }
