@@ -44,6 +44,9 @@ class CsvHandlerTest extends FunSpec with BeforeAndAfter {
       assert(CsvHandler.getRowsAsLists == List(List("hola", "david", "111"), List("chao", "caro", "222")))
     }
 
+
+
+
     it("") {
 
     }
