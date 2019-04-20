@@ -23,6 +23,9 @@ class CsvHandlerTest extends FunSpec with BeforeAndAfter {
     it("getRow") {
       assert(CsvHandler.getRow(1) == List("chao", "caro", "222"))
     }
+	
+	
+	
 
     it("csvMap") {
       assert(
